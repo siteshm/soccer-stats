@@ -1,7 +1,7 @@
 #!groovy​
 
 // FULL_BUILD -> true/false build parameter to define if we need to run the entire stack for lab purpose only
-final FULL_BUILD = params.FULL_BUILD
+//final FULL_BUILD = params.FULL_BUILD
 // HOST_PROVISION -> server to run ansible based on provision/inventory.ini
 final HOST_PROVISION = params.HOST_PROVISION
 
@@ -12,17 +12,17 @@ stage('Build') {
     node {
         git GIT_URL
         withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
-            if(FULL_BUILD) {
+            
                 def pom = readMavenPom file: 'pom.xml'
                 sh "mvn -B versions:set -DnewVersion=${pom.version}-${BUILD_NUMBER}"
                 sh "mvn -B -Dmaven.test.skip=true clean package"
                 stash name: "artifact", includes: "target/soccer-stats-*.war"
-            }
+            
         }
     }
 }
 
-if(FULL_BUILD) {
+
     stage('Unit Tests') {   
         node {
             withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
@@ -31,9 +31,9 @@ if(FULL_BUILD) {
             }
         }
     }
-}
 
-if(FULL_BUILD) {
+
+
     stage('Integration Tests') {
         node {
             withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
@@ -42,9 +42,9 @@ if(FULL_BUILD) {
             }
         }
     }
-}
 
-if(FULL_BUILD) {
+
+
     stage('Static Analysis') {
         node {
             withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
@@ -56,18 +56,18 @@ if(FULL_BUILD) {
             }
         }
     }
-}
 
-if(FULL_BUILD) {
+
+
     stage('Approval') {
         timeout(time:3, unit:'DAYS') {
             input 'Do I have your approval for deployment?'
         }
     }
-}
 
 
-if(FULL_BUILD) {
+
+
     stage('Artifact Upload') {
         node {
             unstash 'artifact'
@@ -91,7 +91,7 @@ if(FULL_BUILD) {
                 version: "${pom.version}"        
         }
     }
-}
+
 
 
 stage('Deploy') {
