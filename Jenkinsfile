@@ -1,4 +1,4 @@
-i#!groovy​
+#!groovy​
 
 // FULL_BUILD -> true/false build parameter to define if we need to run the entire stack for lab purpose only
 final FULL_BUILD = params.FULL_BUILD
