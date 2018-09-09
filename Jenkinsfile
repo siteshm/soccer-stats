@@ -1,12 +1,12 @@
-#!groovy​
+i#!groovy​
 
 // FULL_BUILD -> true/false build parameter to define if we need to run the entire stack for lab purpose only
 final FULL_BUILD = params.FULL_BUILD
 // HOST_PROVISION -> server to run ansible based on provision/inventory.ini
 final HOST_PROVISION = params.HOST_PROVISION
 
-final GIT_URL = 'https://github.com/ricardozanini/soccer-stats.git'
-final NEXUS_URL = 'nexus.local:8081'
+final GIT_URL = 'https://github.com/siteshm/soccer-stats.git'
+final NEXUS_URL = 'http://18.222.249.223:8081/nexus/'
 
 stage('Build') {
     node {
@@ -82,12 +82,12 @@ if(FULL_BUILD) {
                     [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
                     [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
                 ], 
-                credentialsId: 'nexus', 
+                credentialsId: 'admin', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
-                nexusVersion: 'nexus3', 
+                nexusVersion: 'nexus2', 
                 protocol: 'http', 
-                repository: 'ansible-meetup', 
+                repository: 'Releases', 
                 version: "${pom.version}"        
         }
     }
@@ -96,18 +96,18 @@ if(FULL_BUILD) {
 
 stage('Deploy') {
     node {
-        def pom = readMavenPom file: "pom.xml"
-        def repoPath =  "${pom.groupId}".replace(".", "/") + 
+        pom = readMavenPom file: "pom.xml"
+        repoPath =  "${pom.groupId}".replace(".", "/") + 
                         "/${pom.artifactId}"
 
         def version = pom.version
 
         if(!FULL_BUILD) { //takes the last version from repo
-            sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/ansible-meetup/${repoPath}/maven-metadata.xml"
+            sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/Releases/${repoPath}/maven-metadata.xml"
             version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
                          returnStdout: true
         }
-        def artifactUrl = "http://${NEXUS_URL}/repository/ansible-meetup/${repoPath}/${version}/${pom.artifactId}-${version}.war"
+        def artifactUrl = "http://${NEXUS_URL}/repository/Releases/${repoPath}/${version}/${pom.artifactId}-${version}.war"
 
         withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
             echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
