@@ -6,7 +6,7 @@
 final HOST_PROVISION = params.HOST_PROVISION
 
 final GIT_URL = 'https://github.com/siteshm/soccer-stats.git'
-final NEXUS_URL = '18.222.249.223:8081/nexus'
+//final NEXUS_URL = '18.222.249.223:8081/nexus'
 
 stage('Build') {
     node {
@@ -34,14 +34,14 @@ stage('Build') {
 
 
 
-    //stage('Integration Tests') {
-      //  node {
-        //    withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
-          //      sh "mvn -B clean verify -Dsurefire.skip=true"
-            //    stash name: 'it_tests', includes: 'target/failsafe-reports/**'
-          //  }
-        //}
-   // }
+    stage('Integration Tests') {
+       node {
+            withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
+               sh "mvn -B clean verify -Dsurefire.skip=true"
+                stash name: 'it_tests', includes: 'target/failsafe-reports/**'
+            }
+        }
+   }
 
 
 
@@ -65,7 +65,7 @@ stage('Build') {
      //   }
     //}
 
-stage ("wait_prior_starting_smoke_testing") {
+/*stage ("wait_prior_starting_smoke_testing") {
   echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
   sleep 60 // seconds
 }
