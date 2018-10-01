@@ -5,7 +5,7 @@
 // HOST_PROVISION -> server to run ansible based on provision/inventory.ini
 final HOST_PROVISION = params.HOST_PROVISION
 
-final GIT_URL = 'https://github.com/siteshm/soccer-stats.git'
+final GIT_URL = 'https://github.com/siteshm/soccer-stats'
 //final NEXUS_URL = '18.222.249.223:8081/nexus'
 
 stage('Build') {
@@ -129,4 +129,4 @@ stage('Deploy') {
             sudoUser: 'jenkins'
         }
     }
-}
+} */
