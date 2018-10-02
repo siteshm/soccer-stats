@@ -6,7 +6,7 @@
 final HOST_PROVISION = params.HOST_PROVISION
 
 final GIT_URL = 'https://github.com/siteshm/soccer-stats'
-//final NEXUS_URL = '18.222.249.223:8081/nexus'
+final NEXUS_URL = 'http://18.188.233.167:8081'
 
 stage('Build') {
     node {
@@ -89,7 +89,7 @@ stage ("wait_prior_starting_smoke_testing") {
                 credentialsId: 'admin', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
-                nexusVersion: 'nexus2', 
+                nexusVersion: 'nexus3', 
                 protocol: 'http', 
                 repository: 'Releases', 
                 version: "${pom.version}"        
