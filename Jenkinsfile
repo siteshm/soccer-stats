@@ -84,7 +84,7 @@ stage ("wait_prior_starting_smoke_testing") {
                     [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
                     [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
                 ],
-                credentialsId: 'nexus', 
+                credentialsId: 'maven-releases', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
                 nexusVersion: 'nexus3', 
