@@ -75,26 +75,22 @@ stage ("wait_prior_starting_smoke_testing") {
     stage('Artifact Upload') {
         node {
             unstash 'artifact'
-
             def pom = readMavenPom file: 'pom.xml'
             def file = "${pom.artifactId}-${pom.version}"
             def jar = "target/${file}.war"
-
             sh "cp pom.xml ${file}.pom"
             
-            nexusArtifactUploader(
+            nexusArtifactUploader artifacts: [
+                    [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
+                    [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
+                ],
                 credentialsId: 'admin', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
                 nexusVersion: 'nexus3', 
                 protocol: 'http', 
                 repository: 'maven-releases', 
-                version: "${pom.version}",
-            artifacts: [
-                    [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
-                    [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
-                ]
-              )
+                version: "${pom.version}"
         }
     }
 
