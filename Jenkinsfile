@@ -82,7 +82,8 @@ stage ("wait_prior_starting_smoke_testing") {
 
             sh "cp pom.xml ${file}.pom"
 
-            nexusArtifactUploader artifacts: [
+            nexusArtifactUploader (
+            artifacts: [
                     [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
                     [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
                 ], 
@@ -92,7 +93,8 @@ stage ("wait_prior_starting_smoke_testing") {
                 nexusVersion: 'nexus3', 
                 protocol: 'http', 
                 repository: 'Releases', 
-                version: "${pom.version}"        
+                version: "${pom.version}" 
+                )
         }
     }
 
