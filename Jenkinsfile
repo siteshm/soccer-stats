@@ -59,15 +59,15 @@ stage('Build') {
 
 
 
-    stage('Approval') {
+    /*stage('Approval') {
         timeout(time:3, unit:'DAYS') {
          input 'Do I have your approval for deployment?'
        }
-    }
+    }*/
 
 stage ("wait_prior_starting_smoke_testing") {
   echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
-  sleep 60 // seconds
+  sleep 20 // seconds
 }
 
 
@@ -81,20 +81,20 @@ stage ("wait_prior_starting_smoke_testing") {
             def jar = "target/${file}.war"
 
             sh "cp pom.xml ${file}.pom"
-
-            nexusArtifactUploader (
-            artifacts: [
-                    [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
-                    [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
-                ], 
+            
+            nexusArtifactUploader(
                 credentialsId: 'admin', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
                 nexusVersion: 'nexus3', 
                 protocol: 'http', 
-                repository: 'Releases', 
-                version: "${pom.version}" 
-                )
+                repository: 'maven-releases', 
+                version: "${pom.version}",
+            artifacts: [
+                    [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
+                    [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
+                ]
+              )
         }
     }
 
