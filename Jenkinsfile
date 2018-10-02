@@ -45,7 +45,7 @@ stage('Build') {
 
 
 
-    stage('Static Analysis') {
+   /* stage('Static Analysis') {
        node {
            withEnv(["PATH+MAVEN=${tool 'm3'}/bin"]) {
                withSonarQubeEnv('sonar'){
@@ -55,17 +55,17 @@ stage('Build') {
               }
            }
        }
-   }
+   }*/
 
 
 
-    //stage('Approval') {
-      //  timeout(time:3, unit:'DAYS') {
-        //    input 'Do I have your approval for deployment?'
-     //   }
-    //}
+    stage('Approval') {
+        timeout(time:3, unit:'DAYS') {
+         input 'Do I have your approval for deployment?'
+       }
+    }
 
-/*stage ("wait_prior_starting_smoke_testing") {
+stage ("wait_prior_starting_smoke_testing") {
   echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
   sleep 60 // seconds
 }
@@ -98,7 +98,7 @@ stage('Build') {
 
 
 
-stage('Deploy') {
+/*stage('Deploy') {
     node {
         pom = readMavenPom file: "pom.xml"
         repoPath =  "${pom.groupId}".replace(".", "/") + 
