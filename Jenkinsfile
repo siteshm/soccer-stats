@@ -96,7 +96,7 @@ stage ("wait_prior_starting_smoke_testing") {
 
 
 
-/*stage('Deploy') {
+stage('Deploy') {
     node {
         pom = readMavenPom file: "pom.xml"
         repoPath =  "${pom.groupId}".replace(".", "/") + 
@@ -104,18 +104,18 @@ stage ("wait_prior_starting_smoke_testing") {
 
         def version = pom.version
 
-        //if(!FULL_BUILD) { //takes the last version from repo
-            //sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/Releases/${repoPath}/maven-metadata.xml"
-            //version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
-                         //returnStdout: true
-        //}
+        
+            sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/Releases/${repoPath}/maven-metadata.xml"
+            version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
+                         returnStdout: true
+        
         def artifactUrl = "http://${NEXUS_URL}/repository/Releases/${repoPath}/${version}/${pom.artifactId}-${version}.war"
 
         withEnv(["ARTIFACT_URL=${artifactUrl}", "APP_NAME=${pom.artifactId}"]) {
             echo "The URL is ${env.ARTIFACT_URL} and the app name is ${env.APP_NAME}"
 
             // install galaxy roles
-            sh "ansible-galaxy install -vvv -r provision/requirements.yml -p provision/roles/"        
+           /* sh "ansible-galaxy install -vvv -r provision/requirements.yml -p provision/roles/"        
 
             ansiblePlaybook colorized: true, 
             credentialsId: 'ssh-jenkins',
