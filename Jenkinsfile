@@ -105,9 +105,9 @@ stage('Deploy') {
         def version = pom.version
 
         
-            sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/Releases/${repoPath}/maven-metadata.xml"
+           /* sh "curl -o metadata.xml -s http://${NEXUS_URL}/repository/Releases/${repoPath}/maven-metadata.xml"
             version = sh script: 'xmllint metadata.xml --xpath "string(//latest)"',
-                         returnStdout: true
+                         returnStdout: true*/
         
         def artifactUrl = "http://${NEXUS_URL}/repository/Releases/${repoPath}/${version}/${pom.artifactId}-${version}.war"
 
