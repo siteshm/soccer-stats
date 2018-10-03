@@ -89,7 +89,7 @@ stage ("wait_prior_starting_smoke_testing") {
                 nexusUrl: NEXUS_URL, 
                 nexusVersion: 'nexus2', 
                 protocol: 'http', 
-                repository: 'Releases', 
+                repository: 'releases', 
                 version: "${pom.version}"
         }
     }
