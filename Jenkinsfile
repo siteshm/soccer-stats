@@ -6,7 +6,7 @@
 final HOST_PROVISION = params.HOST_PROVISION
 
 final GIT_URL = 'https://github.com/siteshm/soccer-stats'
-final NEXUS_URL = 'http://18.224.180.142:8081/nexus'
+final NEXUS_URL = '18.224.180.142:8081/nexus'
 
 stage('Build') {
     node {
