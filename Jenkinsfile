@@ -6,7 +6,7 @@
 final HOST_PROVISION = params.HOST_PROVISION
 
 final GIT_URL = 'https://github.com/siteshm/soccer-stats'
-final NEXUS_URL = 'http://18.188.233.167:8081'
+final NEXUS_URL = 'http://18.224.180.142:8081/nexus'
 
 stage('Build') {
     node {
@@ -84,10 +84,10 @@ stage ("wait_prior_starting_smoke_testing") {
                     [artifactId: "${pom.artifactId}", classifier: '', file: "target/${file}.war", type: 'war'],
                     [artifactId: "${pom.artifactId}", classifier: '', file: "${file}.pom", type: 'pom']
                 ],
-                credentialsId: 'maven-releases', 
+                credentialsId: 'nexus', 
                 groupId: "${pom.groupId}", 
                 nexusUrl: NEXUS_URL, 
-                nexusVersion: 'nexus3', 
+                nexusVersion: 'nexus2', 
                 protocol: 'http', 
                 repository: 'maven-releases', 
                 version: "${pom.version}"
