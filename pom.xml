@@ -153,7 +153,7 @@
 							<!-- The Base URL of Nexus instance where we want to stage -->
 							<nexusUrl>${NEXUS_URL}</nexusUrl>
 							<!-- The server "id" element from settings to use authentication from -->
-							<serverId>Releases</serverId>
+							<serverId>releases</serverId>
 						</configuration>
 					</plugin>
 				</plugins>
