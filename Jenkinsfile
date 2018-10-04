@@ -116,8 +116,8 @@ stage('Deploy') {
         }
     }
 }
-            // install galaxy roles
-           /* sh "ansible-galaxy install -vvv -r provision/requirements.yml -p provision/roles/"        
+            install galaxy roles
+           sh "ansible-galaxy install -vvv -r provision/requirements.yml -p provision/roles/"        
 
             ansiblePlaybook colorized: true, 
             credentialsId: 'ssh-jenkins',
@@ -129,4 +129,4 @@ stage('Deploy') {
             sudoUser: 'jenkins'
         }
     }
-} */
+} 
