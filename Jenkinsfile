@@ -32,6 +32,11 @@ stage('Build') {
         }
     }
 
+stage ("wait_prior_starting_smoke_testing") {
+  echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
+  sleep 10 // seconds
+}
+
 
 
     stage('Integration Tests') {
@@ -67,7 +72,7 @@ stage('Build') {
 
 stage ("wait_prior_starting_smoke_testing") {
   echo 'Waiting 5 minutes for deployment to complete prior starting smoke testing'
-  sleep 20 // seconds
+  sleep 10 // seconds
 }
 
 
